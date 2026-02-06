@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Preview</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .preview-content {
+      padding: 30px;
+    }
+
+    .preview-logo {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      margin: 0 auto 25px;
+      border-radius: 10px;
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-logo img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .preview-title {
+      font-size: 1.8em;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: #333;
+      line-height: 1.3;
+    }
+
+    .preview-section {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+
+    .preview-section h2 {
+      font-size: 1.2em;
+      margin-bottom: 12px;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .preview-section p {
+      font-size: 1.1em;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .preview-footer {
+      margin-top: 30px;
+      font-size: 1em;
+      color: #999;
+      font-weight: 500;
+    }
+
+    .back-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>👁️ Post Önizleme</h1>
+    </div>
+
+    <div class="preview-content">
+      <% if (logo) { %>
+        <div class="preview-logo">
+          <img src="<%= logo %>" alt="Logo">
+        </div>
+      <% } %>
+
+      <% if (title) { %>
+        <div class="preview-title"><%= title %></div>
+      <% } %>
+
+      <% if (mission) { %>
+        <div class="preview-section">
+          <h2>📌 Misyon</h2>
+          <p><%= mission %></p>
+        </div>
+      <% } %>
+
+      <% if (message) { %>
+        <div class="preview-section">
+          <h2>💬 Mesaj</h2>
+          <p><%= message %></p>
+        </div>
+      <% } %>
+
+      <% if (footer) { %>
+        <div class="preview-footer"><%= footer %></div>
+      <% } %>
+
+      <button class="back-button" onclick="window.location.href='/'">← Geri Dön</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MDR Geri Dönüşüm Bot - Konya</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .button:active {
+      transform: translateY(0);
+    }
+
+    .preview-section {
+      margin-top: 40px;
+      padding: 30px;
+      background: #f8f9fa;
+      border-radius: 15px;
+    }
+
+    .preview-section h2 {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .preview-content {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      margin: 0 auto 20px;
+      border-radius: 10px;
+    }
+
+    .preview-title {
+      font-size: 2em;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .preview-mission {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .preview-message {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .preview-footer {
+      font-size: 1em;
+      color: #999;
+    }
+
+    .templates {
+      margin-top: 30px;
+    }
+
+    .templates h3 {
+      font-size: 1.3em;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .template-card {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.3s;
+    }
+
+    .template-card:hover {
+      border-color: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .template-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .template-description {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .template-example {
+      font-size: 0.85em;
+      color: #999;
+      font-style: italic;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error {
+      background: #ffebee;
+      color: #c62828;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .error.show {
+      display: block;
+    }
+
+    .success {
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .success.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 MDR Geri Dönüşüm Bot</h1>
+      <p>Konya - Manuel içerik girişi ile Instagram/WhatsApp postları oluşturun</p>
+    </div>
+
+    <div class="content">
+      <div class="error" id="error"></div>
+      <div class="success" id="success"></div>
+
+      <form id="postForm">
+        <div class="form-group">
+          <label for="logo">📸 Logo URL (isteğe bağlı)</label>
+          <input type="text" id="logo" placeholder="https://example.com/logo.png">
+        </div>
+
+        <div class="form-group">
+          <label for="motto">📢 Motto / Başlık</label>
+          <input type="text" id="motto" placeholder="Öğretmen Günü Hoş Geldiniz" required>
+        </div>
+
+        <div class="form-group">
+          <label for="mission">📌 Misyon Mesajı</label>
+          <textarea id="mission" placeholder="Mevcut görevinizi sizi çok daha iyi yapmanızı sağlar." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="message">💬 Özel Mesaj</label>
+          <textarea id="message" placeholder="Bugün tüm öğretmenlerimiz için özel bir gün!" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="template">🎨 Şablon Seçin</label>
+          <select id="template">
+            <option value="professional">Professional</option>
+            <option value="carousel">Carousel (Slayt)</option>
+            <option value="minimal">Minimal</option>
+          </select>
+        </div>
+
+        <button type="submit" class="button">📊 Post Oluştur</button>
+      </form>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Post oluşturuluyor...</p>
+      </div>
+
+      <div class="preview-section">
+        <h2>👁️ Önizleme</h2>
+        <div class="preview-content" id="preview">
+          <p style="color: #999;">Post oluşturmak için formu doldurun</p>
+        </div>
+      </div>
+
+      <div class="templates">
+        <h3>📦 Kullanılabilir Şablonlar</h3>
+        <div class="template-grid">
+          <div class="template-card">
+            <div class="template-name">Professional</div>
+            <div class="template-description">Temiz ve profesyonel tasarım</div>
+            <div class="template-example">Öğretmen Günü Hoş Geldiniz</div>
+          </div>
+          <div class="template-card">
+            <div class="template-name">Carousel</div>
+            <div class="template-description">3 slaytlı sunum</div>
+            <div class="template-example">Carousel Post Örneği</div>
+          </div>
+          <div class="template-card">
+            <div class="template-name">Minimal</div>
+            <div class="template-description">Basit ve minimal</div>
+            <div class="template-example">Minimal Tasarım</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('postForm');
+    const loading = document.getElementById('loading');
+    const preview = document.getElementById('preview');
+    const error = document.getElementById('error');
+    const success = document.getElementById('success');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        logo: document.getElementById('logo').value,
+        motto: document.getElementById('motto').value,
+        mission: document.getElementById('mission').value,
+        message: document.getElementById('message').value,
+        template: document.getElementById('template').value,
+        format: 'instagram'
+      };
+
+      loading.classList.add('show');
+      error.classList.remove('show');
+      success.classList.remove('show');
+
+      try {
+        const response = await fetch('/api/create-post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          preview.innerHTML = renderPreview(result.post);
+          success.textContent = '✅ Post başarıyla oluşturuldu!';
+          success.classList.add('show');
+
+          setTimeout(() => {
+            success.classList.remove('show');
+          }, 3000);
+        } else {
+          error.textContent = `❌ Hata: ${result.error}`;
+          error.classList.add('show');
+        }
+      } catch (err) {
+        error.textContent = `❌ Bağlantı hatası: ${err.message}`;
+        error.classList.add('show');
+      } finally {
+        loading.classList.remove('show');
+      }
+    });
+
+    function renderPreview(post) {
+      let html = '';
+
+      if (post.logo) {
+        html += `<img src="${post.logo}" alt="Logo" class="logo">`;
+      }
+
+      if (post.title) {
+        html += `<div class="preview-title">${post.title}</div>`;
+      }
+
+      if (post.mission) {
+        html += `<div class="preview-mission">${post.mission}</div>`;
+      }
+
+      if (post.message) {
+        html += `<div class="preview-message">${post.message}</div>`;
+      }
+
+      if (post.footer) {
+        html += `<div class="preview-footer">${post.footer}</div>`;
+      }
+
+      return html || '<p style="color: #999;">Post oluşturulamadı</p>';
+    }
+  </script>
+</body>
+</html>
