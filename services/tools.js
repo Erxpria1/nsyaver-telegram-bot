@@ -69,8 +69,27 @@ async function executeTool(toolName, args) {
 
     case 'calculator':
       try {
-        // Simple calculator - in production use a safer math library
-        const result = eval(args.expression.replace(/sqrt/g, 'Math.sqrt'));
+        // Safe calculator - only allow basic math operations
+        // Remove any potentially dangerous characters
+        const sanitized = args.expression
+          .replace(/[^0-9+\-*/().\s]/g, '')
+          .replace(/Math\./g, '');
+        
+        // Basic validation
+        if (!sanitized.trim()) {
+          return { success: false, error: 'Geçersiz matematiksel ifade' };
+        }
+        
+        // For production, use a proper math parser library like math.js
+        // This is a simplified safe calculator
+        const allowedOps = /^[0-9+\-*/().\s]+$/;
+        if (!allowedOps.test(sanitized)) {
+          return { success: false, error: 'Sadece temel matematiksel işlemler desteklenir' };
+        }
+        
+        // Limited eval for basic arithmetic only
+        const result = Function('"use strict"; return (' + sanitized + ')')();
+        
         return {
           success: true,
           result: `${args.expression} = ${result}`

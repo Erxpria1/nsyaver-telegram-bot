@@ -10,7 +10,7 @@ Nsyaver, GLM z.ai tabanlı, MCP (Model Context Protocol) hazır bir kişisel AI 
 - 💬 **Telegram Bot** - Modern ve kullanıcı dostu arayüz
 - 🔄 **Çoklu Model Desteği** - glm-4-flash, glm-4-plus, glm-4v ve daha fazlası
 - 🖼️ **Görüntü Analizi** - GLM Vision ile fotoğraf analizi
-- 📄 **Dosya İşleme** - PDF ve TXT dosya analizi
+- 📄 **Dosya İşleme** - TXT dosya analizi (PDF desteği yakında)
 - 🧮 **Akıllı Araçlar** - Hesaplama, web arama, sistem durumu
 - 🗨️ **Bağlam Yönetimi** - Akıllı sohbet hafızası
 
@@ -77,8 +77,9 @@ Başlık: Bu görüntüde ne var?
 ### Dosya Analizi
 PDF veya TXT dosyası göndererek içeriğini inceleyin:
 ```
-[Dosya gönder: rapor.pdf]
+[Dosya gönder: rapor.txt]
 ```
+*Not: Şu anda sadece TXT dosyaları desteklenmektedir. PDF desteği yakında eklenecek.*
 
 ### Araçları Kullanma
 Nsyaver otomatik olarak gerektiğinde araçları kullanır:
@@ -159,7 +160,7 @@ TELEGRAM_WEBHOOK_URL=https://yourdomain.com/telegram/webhook
 ### Multi-Modal
 - Metin işleme
 - Görüntü analizi (GLM-4V)
-- Dosya içerik analizi
+- Dosya içerik analizi (TXT, PDF desteği yakında)
 
 ## 🔐 Güvenlik
 

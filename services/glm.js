@@ -27,10 +27,11 @@ module.exports = {
   /**
    * Standard chat completion
    */
-  chat: async (messages, model = GLM_MODEL || 'glm-4-flash', options = {}) => {
+  chat: async (messages, model = null, options = {}) => {
+    const selectedModel = model ?? GLM_MODEL ?? 'glm-4-flash';
     try {
       const response = await openai.chat.completions.create({
-        model: model,
+        model: selectedModel,
         messages: messages,
         stream: false,
         temperature: options.temperature || 0.7,
@@ -48,10 +49,11 @@ module.exports = {
   /**
    * Stream chat completion
    */
-  streamChat: async (messages, model = GLM_MODEL || 'glm-4-flash', callback, options = {}) => {
+  streamChat: async (messages, model = null, callback, options = {}) => {
+    const selectedModel = model ?? GLM_MODEL ?? 'glm-4-flash';
     try {
       const response = await openai.chat.completions.create({
-        model: model,
+        model: selectedModel,
         messages: messages,
         stream: true,
         temperature: options.temperature || 0.7,

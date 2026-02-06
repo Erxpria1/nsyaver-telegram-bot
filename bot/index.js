@@ -21,6 +21,10 @@ console.log('🤖 Bot başlatılıyor...');
 console.log('🔑 Token:', TELEGRAM_BOT_TOKEN ? 'Aktif' : 'Eksik');
 console.log('🧠 GLM API:', GLM_API_KEY ? 'Aktif' : 'Eksik');
 
+// Constants
+const MAX_FILE_CONTENT_LENGTH = 2000; // Maximum characters to send from file content
+const MAX_MESSAGE_HISTORY = 22; // Maximum messages to keep in history
+
 // User session storage
 const userSessions = new Map();
 
@@ -232,9 +236,9 @@ bot.on('document', async (ctx) => {
     const doc = ctx.message.document;
     const fileName = doc.file_name;
     
-    // Only handle PDF and TXT files
-    if (!fileName.match(/\.(pdf|txt)$/i)) {
-      return ctx.reply('⚠️ Sadece PDF ve TXT dosyaları desteklenmektedir.');
+    // Only handle TXT files (PDF parsing requires additional library)
+    if (!fileName.match(/\.txt$/i)) {
+      return ctx.reply('⚠️ Şu an sadece TXT dosyaları desteklenmektedir. PDF desteği yakında eklenecek.');
     }
     
     ctx.reply('📄 Dosyanız işleniyor...');
@@ -248,8 +252,11 @@ bot.on('document', async (ctx) => {
     const userId = ctx.from.id;
     const session = getUserSession(userId);
     
-    // Analyze the file content
-    const analysisPrompt = `Kullanıcı "${fileName}" adlı bir dosya gönderdi. İşte içeriği:\n\n${content.substring(0, 2000)}...\n\nBu dosyayı özetle ve içeriği hakkında bilgi ver.`;
+    // Analyze the file content with length limit
+    const contentPreview = content.substring(0, MAX_FILE_CONTENT_LENGTH);
+    const truncated = content.length > MAX_FILE_CONTENT_LENGTH;
+    
+    const analysisPrompt = `Kullanıcı "${fileName}" adlı bir dosya gönderdi. İşte içeriği${truncated ? ' (ilk kısmı)' : ''}:\n\n${contentPreview}\n\nBu dosyayı özetle ve içeriği hakkında bilgi ver.`;
     
     session.messages.push({
       role: 'user',
@@ -324,7 +331,7 @@ bot.on('text', async (ctx) => {
     }
     
     // Keep message history manageable
-    if (session.messages.length > 22) {
+    if (session.messages.length > MAX_MESSAGE_HISTORY) {
       // Keep system message and last 20 messages
       session.messages = [
         session.messages[0],
