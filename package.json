@@ -1,7 +1,7 @@
 {
-  "name": "ih-com-mdr-bot",
+  "name": "ih-com-telegram-ai-bot",
   "version": "1.0.0",
-  "description": "Konya MDR Geri Dönüşüm Bot - Manuel içerik girişi ile Instagram/WhatsApp postları oluşturur",
+  "description": "Telegram AI Asistanı - GLM yapay zeka ile sohbet botu",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
